@@ -1,20 +1,19 @@
 const { httpGet } = require('./mock-http-interface');
-
+//   //while (i < urls.length) {
 const getArnieQuotes = async (urls) => {
-  let results = [];
-  let i = 0;
-  while (i < urls.length) {
-    let response = await httpGet(urls[i]);
-    if (response.status === 200) {
-      result = { 'Arnie Quote': JSON.parse(response.body).message };
-    } else {
-      result = { 'FAILURE': JSON.parse(response.body).message };
-    }
-    results.push(result);
-     i++;
-  }
-  return results;
-};
+  const requests = urls.map((url) => {
+    return httpGet(url) 
+     .then((response) => {
+      if (response.status === 200) {
+        result = { 'Arnie Quote': JSON.parse(response.body).message };
+      } else {
+        result = { 'FAILURE': JSON.parse(response.body).message };
+      }
+      return result;
+      })
+  })
+  return Promise.all(requests) 
+}
 
 module.exports = {
   getArnieQuotes,
