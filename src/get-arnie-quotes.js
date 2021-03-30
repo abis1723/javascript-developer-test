@@ -1,5 +1,4 @@
 const { httpGet } = require('./mock-http-interface');
-//   //while (i < urls.length) {
 const getArnieQuotes = async (urls) => {
   const requests = urls.map((url) => {
     return httpGet(url) 
